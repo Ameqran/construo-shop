@@ -1,0 +1,50 @@
+{
+    "realm": "construo-shop",
+    "enabled": true,
+    "registrationAllowed": false,
+    "verifyEmail": false,
+    "loginWithEmailAllowed": true,
+    "duplicateEmailsAllowed": false,
+    "users": [
+      {
+        "username": "mar1",
+        "enabled": true,
+        "emailVerified": true,
+        "firstName": "Mar",
+        "lastName": "Admin",
+        "email": "mar1@example.com",
+        "credentials": [
+          {
+            "type": "password",
+            "value": "pass",
+            "temporary": false
+          }
+        ],
+        "requiredActions": [],
+        "realmRoles": ["admin"]
+      }
+    ],
+    "roles": {
+      "realm": [
+        {
+          "name": "admin",
+          "description": "Shop Admin role"
+        }
+      ]
+    },
+    "clients": [
+      {
+        "clientId": "construo-shop",
+        "enabled": true,
+        "publicClient": true,
+        "redirectUris": ["*"],
+        "webOrigins": ["*"],
+        "directAccessGrantsEnabled": true,
+        "standardFlowEnabled": true,
+        "implicitFlowEnabled": false,
+        "serviceAccountsEnabled": false,
+        "protocol": "openid-connect",
+        "fullScopeAllowed": true
+      }
+    ]
+  }

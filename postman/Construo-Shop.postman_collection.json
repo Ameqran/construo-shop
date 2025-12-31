@@ -247,12 +247,67 @@
       ]
     }
   ],
-  "event": [],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Fetch access token from Keycloak using password grant",
+          "const tokenUrl = pm.collectionVariables.get('token_url');",
+          "const clientId = pm.collectionVariables.get('client_id');",
+          "const username = pm.collectionVariables.get('username');",
+          "const password = pm.collectionVariables.get('password');",
+          "",
+          "pm.sendRequest({",
+          "    url: tokenUrl,",
+          "    method: 'POST',",
+          "    header: {",
+          "        'Content-Type': 'application/x-www-form-urlencoded'",
+          "    },",
+          "    body: {",
+          "        mode: 'urlencoded',",
+          "        urlencoded: [",
+          "            { key: 'client_id', value: clientId },",
+          "            { key: 'username', value: username },",
+          "            { key: 'password', value: password },",
+          "            { key: 'grant_type', value: 'password' }",
+          "        ]",
+          "    }",
+          "}, (err, res) => {",
+          "    if (err || !res.ok) {",
+          "        console.log('Token fetch failed', err || res);",
+          "        return;",
+          "    }",
+          "    const token = res.json().access_token;",
+          "    if (token) {",
+          "        pm.collectionVariables.set('accessToken', token);",
+          "    }",
+          "});"
+        ]
+      }
+    }
+  ],
   "variable": [
     { "key": "baseUrl", "value": "http://localhost:8080" },
     { "key": "categoryId", "value": "1" },
     { "key": "productId", "value": "1" },
     { "key": "orderId", "value": "1" },
-    { "key": "keyword", "value": "apple" }
+    { "key": "keyword", "value": "apple" },
+    { "key": "token_url", "value": "http://localhost:8080/realms/construo-shop/protocol/openid-connect/token" },
+    { "key": "client_id", "value": "construo-shop" },
+    { "key": "username", "value": "mar1" },
+    { "key": "password", "value": "pass" },
+    { "key": "accessToken", "value": "" }
   ]
 }
